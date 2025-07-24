@@ -1,29 +1,69 @@
-import React from 'react'
-import ReactDOM from 'react-dom/client'
-import './index.css'  // Global styles for your application
-import { RouterProvider } from "react-router-dom";  // Import RouterProvider to use the router
-import { router } from "./routes";  // Import the router configuration
-import { StoreProvider } from './hooks/useGlobalReducer';  // Import the StoreProvider for global state management
+import React, { useState, useEffect } from 'react';
+import ReactDOM from 'react-dom/client';
+import './index.css';
+import { RouterProvider, createBrowserRouter } from 'react-router-dom';
+import { StoreProvider } from './hooks/useGlobalReducer';
 import { BackendURL } from './components/BackendURL';
 
-const Main = () => {
-    
-    if(! import.meta.env.VITE_BACKEND_URL ||  import.meta.env.VITE_BACKEND_URL == "") return (
-        <React.StrictMode>
-              <BackendURL/ >
-        </React.StrictMode>
-        );
+import { privateRoutes, publicRoutes } from './routes';
+
+function Main() {
+  const [logueado, setLogueado] = useState(false);
+
+  useEffect(() => {
+    const sesion = localStorage.getItem('logueado');
+    setLogueado(sesion === 'true');
+  }, []);
+
+  const handleLogin = () => {
+    setLogueado(true);
+  };
+
+  const handleLogout = () => {
+    setLogueado(false);
+    localStorage.clear(); // Opcional: limpia todo para asegurar que no quede info
+  };
+
+  // Creamos los routers inyectando props onLogin/onLogout
+  const privateRouter = createBrowserRouter(
+    privateRoutes.map(route => {
+      if (route.element && route.element.type.name === 'Layout') {
+        return {
+          ...route,
+          element: React.cloneElement(route.element, { onLogout: handleLogout }),
+        };
+      }
+      return route;
+    })
+  );
+
+  const publicRouter = createBrowserRouter(
+    publicRoutes.map(route => {
+      if (route.element && route.element.type.name === 'Login') {
+        return {
+          ...route,
+          element: React.cloneElement(route.element, { onLogin: handleLogin }),
+        };
+      }
+      return route;
+    })
+  );
+
+  if (!import.meta.env.VITE_BACKEND_URL || import.meta.env.VITE_BACKEND_URL === '') {
     return (
-        <React.StrictMode>  
-            {/* Provide global state to all components */}
-            <StoreProvider> 
-                {/* Set up routing for the application */} 
-                <RouterProvider router={router}>
-                </RouterProvider>
-            </StoreProvider>
-        </React.StrictMode>
+      <React.StrictMode>
+        <BackendURL />
+      </React.StrictMode>
     );
+  }
+
+  return (
+    <React.StrictMode>
+      <StoreProvider>
+        <RouterProvider router={logueado ? privateRouter : publicRouter} />
+      </StoreProvider>
+    </React.StrictMode>
+  );
 }
 
-// Render the Main component into the root DOM element.
-ReactDOM.createRoot(document.getElementById('root')).render(<Main />)
+ReactDOM.createRoot(document.getElementById('root')).render(<Main />);

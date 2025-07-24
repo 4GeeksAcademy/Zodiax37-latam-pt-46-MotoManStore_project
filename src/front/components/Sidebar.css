@@ -1,0 +1,54 @@
+.nav-link {
+  transition: background 0.3s;
+  border-radius: 4px;
+  padding: 8px 12px;
+}
+
+.nav-link:hover {
+  background-color: #e7f1ff;
+}
+/* Sidebar.css */
+.nav-link {
+  transition: background-color 0.3s ease, color 0.3s ease;
+  border-radius: 8px;
+  padding: 8px 12px;
+}
+
+.nav-link:hover {
+  background-color: #f0f0f0;
+  color: #007bff;
+}
+
+.nav-link.active {
+  background-color: #e0ecff;
+  color: #0d6efd;
+  font-weight: bold;
+}
+
+.cursor-pointer {
+  cursor: pointer;
+}
+
+/* Submenú animado */
+.submenu {
+  overflow: hidden;
+  transition: max-height 0.3s ease;
+}
+
+.submenu.open {
+  max-height: 500px;
+}
+
+.submenu.closed {
+  max-height: 0;
+}
+
+/* Subitem style */
+.sidebar-subitem .nav-link {
+  padding-left: 24px;
+}
+
+.sidebar-subitem .nav-link:hover {
+  background-color: #f8f9fa;
+  border-radius: 6px;
+}

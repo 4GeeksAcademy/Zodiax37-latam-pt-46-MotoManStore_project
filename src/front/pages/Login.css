@@ -1,0 +1,74 @@
+.login-container {
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: #f4f6f8;
+  font-family: 'Segoe UI', sans-serif;
+}
+
+.login-box {
+  display: flex;
+  width: 800px;
+  height: 400px;
+  box-shadow: 0 0 25px rgba(0, 0, 0, 0.1);
+  background: white;
+  border-radius: 12px;
+  overflow: hidden;
+}
+
+/* Panel izquierdo (branding) */
+.left-panel {
+  flex: 1;
+  background: #1f2d40;
+  color: #ffffff;
+  padding: 40px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+.left-panel h2 {
+  font-weight: 600;
+  margin-bottom: 10px;
+}
+.left-panel p {
+  font-size: 14px;
+  opacity: 0.8;
+}
+
+/* Panel derecho (formulario) */
+.right-panel {
+  flex: 1;
+  padding: 40px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+.right-panel h4 {
+  margin-bottom: 20px;
+  font-weight: 600;
+  color: #1f2d40;
+}
+.right-panel input {
+  margin-bottom: 12px;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  font-size: 14px;
+}
+.right-panel input:focus {
+  border-color: #3b82f6;
+  outline: none;
+}
+.right-panel .btn {
+  background-color: #3b82f6;
+  border: none;
+  padding: 10px;
+  color: white;
+  font-weight: 500;
+  border-radius: 6px;
+  transition: background 0.2s;
+}
+.right-panel .btn:hover {
+  background-color: #2563eb;
+}

@@ -1,0 +1,8 @@
+.container {
+  max-width: 500px;
+  margin: auto;
+}
+
+form input, form select {
+  font-size: 1rem;
+}

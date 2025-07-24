@@ -1,30 +1,76 @@
-// Import necessary components and functions from react-router-dom.
+// src/routes.jsx
+import { Navigate } from 'react-router-dom';
+import { Layout } from './pages/Layout';
+import Login from './pages/Login';
 
-import {
-    createBrowserRouter,
-    createRoutesFromElements,
-    Route,
-} from "react-router-dom";
-import { Layout } from "./pages/Layout";
-import { Home } from "./pages/Home";
-import { Single } from "./pages/Single";
-import { Demo } from "./pages/Demo";
+import Home from './pages/Home';
+import RegistroProducto from './pages/RegistroProducto';
+import EditarProductoPage from './pages/EditarProductoPage';
+import IngresoInventario from './pages/IngresoInventario';
+import RegistrarVenta from './pages/RegistrarVenta';
+import GenerarReporte from './pages/GenerarReporte';
+import Usuarios from './pages/Usuarios';
+import Configuracion from './pages/Configuracion';
+import CrearUserForm from './pages/CrearUserForm';
+import CatalogoProductos from './pages/CatalogoProducto';
+import PreventaPage from './pages/PreventaPage';
+import PreventasPendientes from "./pages/PreventasPendientes";
+import ListaMovimientosInventario from './pages/Movimientos/ListaMovimientosInventario';
+import RegistrarMovimientoPage from './pages/Movimientos/RegistrarMovimiento';
+import RegistrarCategoriaPage from './pages/RegistrarCategoriaPage';
+import RegistrarProveedorPage from './pages/RegistrarProveedorPage';
+import UsuariosEditar from './pages/UsuariosEditar';
+import CategoriasLista from './pages/CategoriaLista';
+import ListaVentas from './pages/ListaVentas';
+import EmpleadoEditarPage from './pages/EmpleadoEditarPage';
+import EmpleadosLista from './pages/EmpleadosLista';
+import EmpleadoCrearPage from './pages/EmpleadoCrearpage';
+import ProveedorEditarPage from './pages/ProveedorEditarPage';
+import ProveedorListaPage from './pages/ProveedorListapage';
+import CategoriaEditarPage from './pages/CategoriaEditarPage';
 
-export const router = createBrowserRouter(
-    createRoutesFromElements(
-    // CreateRoutesFromElements function allows you to build route elements declaratively.
-    // Create your routes here, if you want to keep the Navbar and Footer in all views, add your new routes inside the containing Route.
-    // Root, on the contrary, create a sister Route, if you have doubts, try it!
-    // Note: keep in mind that errorElement will be the default page when you don't get a route, customize that page to make your project more attractive.
-    // Note: The child paths of the Layout element replace the Outlet component with the elements contained in the "element" attribute of these child paths.
+export const privateRoutes = [
+  {
+    path: '/',
+    element: <Layout />,
+    children: [
+      { path: '/', element: <Home /> },
+      { path: '/productos/registrar-producto', element: <RegistroProducto /> },
+      { path: '/productos/editar-producto/:id', element: <EditarProductoPage /> },
+      { path: '/ingresar-inventario', element: <IngresoInventario /> },
+      { path: '/registrar-venta', element: <RegistrarVenta /> },
+      { path: '/reportes', element: <GenerarReporte /> },
+      { path: '/usuarios', element: <Usuarios /> },
+      { path: '/crear-usuario', element: <CrearUserForm /> },
+      { path: '/usuarios/editar/:id', element: <UsuariosEditar /> },
+      { path: '/configuracion', element: <Configuracion /> },
+      { path: '/productos/catalogo', element: <CatalogoProductos /> },
+      { path: '/seleccionar-preventa', element: <PreventasPendientes /> },
+      { path: '/movimientos', element: <ListaMovimientosInventario /> },
+      { path: '/registrar-movimiento', element: <RegistrarMovimientoPage /> },
+      { path: '/ventas/listado', element: <ListaVentas /> },
+      { path: '/preventa', element: <PreventaPage /> },
+      { path: '/categorias/lista', element: <CategoriasLista /> },
+      { path: '/categorias/editar/:id', element: <CategoriaEditarPage /> },
+      { path: '/categorias/registrar', element: <RegistrarCategoriaPage /> },
+      { path: '/proveedores/registrar', element: <RegistrarProveedorPage /> },
+      { path: '/proveedores/lista', element: <ProveedorListaPage /> },
+      { path: '/proveedores/editar/:id', element: <ProveedorEditarPage /> },
+      { path: '/empleados/lista', element: <EmpleadosLista /> },
+      { path: '/empleados/crear', element: <EmpleadoCrearPage /> },
+      { path: '/empleados/editar/:id', element: <EmpleadoEditarPage /> },
+      { path: '*', element: <Navigate to="/" replace /> }, // fallback privado
+    ],
+  },
+];
 
-      // Root Route: All navigation will start from here.
-      <Route path="/" element={<Layout />} errorElement={<h1>Not found!</h1>} >
-
-        {/* Nested Routes: Defines sub-routes within the BaseHome component. */}
-        <Route path= "/" element={<Home />} />
-        <Route path="/single/:theId" element={ <Single />} />  {/* Dynamic route for single items */}
-        <Route path="/demo" element={<Demo />} />
-      </Route>
-    )
-);
+export const publicRoutes = [
+  {
+    path: '/login',
+    element: <Login />,
+  },
+  {
+    path: '*',
+    element: <Navigate to="/login" replace />, // fallback público
+  },
+];
