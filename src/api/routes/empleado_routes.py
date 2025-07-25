@@ -1,9 +1,12 @@
 from flask import Blueprint, request, jsonify
+
+from flask_jwt_extended import jwt_required
 from api.models import db, Empleado, Persona
 
 empleado_bp = Blueprint('empleado_bp', __name__)
 
 @empleado_bp.route('/', methods=['GET'])
+@jwt_required()
 def get_empleados():
     empleados = Empleado.query.filter_by(estado=True).all()
     result = []
@@ -20,6 +23,7 @@ def get_empleados():
     return jsonify(result), 200
 
 @empleado_bp.route('/<int:id>', methods=['GET'])
+@jwt_required()
 def get_empleado(id):
     e = Empleado.query.get_or_404(id)
     if not e.estado:
@@ -34,6 +38,7 @@ def get_empleado(id):
     }), 200
 
 @empleado_bp.route('/', methods=['POST'])
+@jwt_required()
 def create_empleado():
     data = request.get_json()
     nuevo_empleado = Empleado(
@@ -48,6 +53,7 @@ def create_empleado():
     return jsonify({"message": "Empleado creado", "id": nuevo_empleado.id}), 201
 
 @empleado_bp.route('/<int:id>', methods=['PUT'])
+@jwt_required()
 def update_empleado(id):
     data = request.get_json()
     e = Empleado.query.get_or_404(id)
@@ -61,6 +67,7 @@ def update_empleado(id):
     return jsonify({"message": "Empleado actualizado"}), 200
 
 @empleado_bp.route('/<int:id>', methods=['DELETE'])
+@jwt_required()
 def delete_empleado(id):
     e = Empleado.query.get_or_404(id)
     e.estado = False
@@ -70,6 +77,7 @@ def delete_empleado(id):
 
 
 @empleado_bp.route('/completo/<int:id>', methods=['GET'])
+@jwt_required()
 def get_empleado_completo(id):
     e = Empleado.query.get_or_404(id)
     if not e.estado:
@@ -100,6 +108,7 @@ def get_empleado_completo(id):
 
 
 @empleado_bp.route('/completo', methods=['POST'])
+@jwt_required()
 def crear_empleado_completo():
     data = request.get_json()
     

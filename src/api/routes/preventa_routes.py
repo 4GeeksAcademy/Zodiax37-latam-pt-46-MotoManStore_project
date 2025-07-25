@@ -3,6 +3,8 @@ from api.models import db, Preventa, PreventaProducto, Producto, Existencia, Ven
 from datetime import datetime
 from sqlalchemy.exc import IntegrityError, SQLAlchemyError
 from decimal import Decimal
+
+from flask_jwt_extended import jwt_required
 from sqlalchemy import or_
 
 
@@ -10,6 +12,7 @@ preventas_bp = Blueprint('preventas_bp', __name__)
 
 
 @preventas_bp.route('/crear', methods=['POST'])
+@jwt_required()
 def crear_preventa():
     data = request.get_json()
     usuario_id = data.get("usuario_id")
@@ -22,6 +25,7 @@ def crear_preventa():
 
 
 @preventas_bp.route('/agregar-producto', methods=['POST'])
+@jwt_required()
 def agregar_producto():
     data = request.get_json()
     preventa_id = data.get("preventa_id")
@@ -55,6 +59,7 @@ def agregar_producto():
 
 
 @preventas_bp.route('/quitar-producto', methods=['DELETE'])
+@jwt_required()
 def quitar_producto():
     data = request.get_json()
     preventa_id = data.get("preventa_id")
@@ -71,6 +76,7 @@ def quitar_producto():
 
 
 @preventas_bp.route('/listar-productos/<int:preventa_id>', methods=['GET'])
+@jwt_required()
 def listar_productos(preventa_id):
     detalles = PreventaProducto.query.filter_by(preventa_id=preventa_id).all()
     resultado = []
@@ -89,6 +95,7 @@ def listar_productos(preventa_id):
 
 
 @preventas_bp.route('/listar-pendientes/<int:usuario_id>', methods=['GET'])
+@jwt_required()
 def listar_preventas_pendientes(usuario_id):
     preventas = Preventa.query.filter_by(
         usuario_id=usuario_id, estado='Pendiente').all()
@@ -101,6 +108,7 @@ def listar_preventas_pendientes(usuario_id):
 
 
 @preventas_bp.route('/eliminar/<int:preventa_id>', methods=['DELETE'])
+@jwt_required()
 def eliminar_preventa(preventa_id):
     try:
         detalles = PreventaProducto.query.filter_by(
@@ -119,6 +127,7 @@ def eliminar_preventa(preventa_id):
 
 
 @preventas_bp.route('/ventas/<int:usuario_id>', methods=['GET'])
+@jwt_required()
 def obtener_ventas(usuario_id):
     try:
         ventas = db.session.query(Venta).filter(

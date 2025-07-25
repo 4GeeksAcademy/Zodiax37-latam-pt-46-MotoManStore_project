@@ -3,9 +3,12 @@ from api.models import db, Usuario
 from datetime import datetime
 from werkzeug.security import generate_password_hash, check_password_hash
 
+from flask_jwt_extended import jwt_required
+
 usuario_bp = Blueprint('usuario_bp', __name__)
 
 @usuario_bp.route('/', methods=['GET'])
+@jwt_required()
 def get_usuarios():
     usuarios = Usuario.query.filter_by(estado=True).all()
     result = []
@@ -28,6 +31,7 @@ def get_usuarios():
 
 
 @usuario_bp.route('/<int:id>', methods=['GET'])
+@jwt_required()
 def get_usuario(id):
     u = Usuario.query.get_or_404(id)
     print(u)
@@ -43,6 +47,7 @@ def get_usuario(id):
     }), 200
 
 @usuario_bp.route('/', methods=['POST'])
+@jwt_required()
 def create_usuario():
     data = request.get_json()
     hashed_password = generate_password_hash(data.get('password'), method='scrypt')
@@ -59,6 +64,7 @@ def create_usuario():
     return jsonify({"message": "Usuario creado", "id": nuevo_usuario.id}), 201
 
 @usuario_bp.route('/<int:id>', methods=['PUT'])
+@jwt_required()
 def update_usuario(id):
     data = request.get_json()
     u = Usuario.query.get_or_404(id)
@@ -74,6 +80,7 @@ def update_usuario(id):
     return jsonify({"message": "Usuario actualizado"}), 200
 
 @usuario_bp.route('/<int:id>', methods=['DELETE'])
+@jwt_required()
 def delete_usuario(id):
     u = Usuario.query.get_or_404(id)
     u.estado = False

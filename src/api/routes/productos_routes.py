@@ -1,9 +1,12 @@
 from flask import Blueprint, request, jsonify
+
+from flask_jwt_extended import jwt_required
 from api.models import db, Producto, Categoria, Proveedor, Existencia
 
 producto_bp = Blueprint('producto_bp', __name__)
 
 @producto_bp.route('/', methods=['GET'])
+@jwt_required()
 def get_productos():
     productos = (
         db.session.query(Producto)
@@ -74,6 +77,7 @@ def get_productos():
 
 
 @producto_bp.route('/<int:id>', methods=['GET'])
+@jwt_required()
 def get_producto(id):
     producto = (
         db.session.query(Producto)
@@ -143,6 +147,7 @@ def get_producto(id):
 
 
 @producto_bp.route('/', methods=['POST'])
+@jwt_required()
 def create_producto():
     data = request.get_json()
     nuevo_producto = Producto(
@@ -160,6 +165,7 @@ def create_producto():
     return jsonify({"message": "Producto creado", "id": nuevo_producto.id}), 201
 
 @producto_bp.route('/<int:id>', methods=['PUT'])
+@jwt_required()
 def update_producto(id):
     data = request.get_json()
     prod = Producto.query.get_or_404(id)
@@ -176,6 +182,7 @@ def update_producto(id):
     return jsonify({"message": "Producto actualizado"}), 200
 
 @producto_bp.route('/<int:id>', methods=['DELETE'])
+@jwt_required()
 def delete_producto(id):
     prod = Producto.query.get_or_404(id)
     prod.estado = False

@@ -2,10 +2,13 @@ from flask import Blueprint, request, jsonify
 from api.models import db, Existencia, MovimientoInventario, Producto, Categoria, Usuario, Notificacion
 from datetime import datetime
 
+from flask_jwt_extended import jwt_required
+
 existencias_bp = Blueprint('existencias_bp', __name__)
 
 
 @existencias_bp.route('/movimientos', methods=['GET'])
+@jwt_required()
 def listar_movimientos():
     movimientos = db.session.query(MovimientoInventario).join(Producto).join(Categoria).order_by(MovimientoInventario.fecha_movimiento.desc()).all()
     
@@ -26,6 +29,7 @@ def listar_movimientos():
     return jsonify(resultado), 200
 
 @existencias_bp.route('/', methods=['GET'])
+@jwt_required()
 def listar_existencias():
     existencias = db.session.query(Existencia).all()
     
@@ -44,6 +48,7 @@ def listar_existencias():
 
 
 @existencias_bp.route('/', methods=['POST'])
+@jwt_required()
 def create_exist():
     data = request.get_json()
     nuevo_exist = Existencia(
@@ -59,6 +64,7 @@ def create_exist():
 
 
 @existencias_bp.route('/movimientos/<int:id>', methods=['GET'])
+@jwt_required()
 def obtener_movimiento(id):
     mov = MovimientoInventario.query.get_or_404(id)
 
@@ -78,6 +84,7 @@ def obtener_movimiento(id):
 
 
 @existencias_bp.route('/movimientos', methods=['POST'])
+@jwt_required()
 def registrar_movimiento():
     data = request.get_json()
 

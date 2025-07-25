@@ -62,6 +62,11 @@ export default function Login({ onLogin }) {
       const { token } = res.data;
       const payload = JSON.parse(atob(token.split('.')[1]));
 
+      console.log("Token recibido:", token);
+      console.log("Payload:", payload);
+
+      localStorage.removeItem('token');//temp
+
       localStorage.setItem('token', token);
       localStorage.setItem('logueado', 'true');
       localStorage.setItem('rol', payload.rol);
@@ -70,7 +75,7 @@ export default function Login({ onLogin }) {
 
       setIntentos(0);
       setError('');
-      onLogin(); // <---- aquí llamamos para actualizar estado global
+      onLogin();
       navigate('/', { replace: true });
     } catch (err) {
       const nuevosIntentos = intentos + 1;

@@ -1,9 +1,11 @@
 from flask import Blueprint, request, jsonify
 from api.models import db, Persona
+from flask_jwt_extended import jwt_required
 
 persona_bp = Blueprint('persona_bp', __name__)
 
 @persona_bp.route('/', methods=['GET'])
+@jwt_required()
 def get_personas():
     personas = Persona.query.filter_by(estado=True).all()
     result = []
@@ -25,6 +27,7 @@ def get_personas():
     return jsonify(result), 200
 
 @persona_bp.route('/<int:id>', methods=['GET'])
+@jwt_required()
 def get_persona(id):
     p = Persona.query.get_or_404(id)
     if not p.estado:
@@ -45,6 +48,7 @@ def get_persona(id):
     }), 200
 
 @persona_bp.route('/', methods=['POST'])
+@jwt_required()
 def create_persona():
     data = request.get_json()
     nueva_persona = Persona(
@@ -65,6 +69,7 @@ def create_persona():
     return jsonify({"message": "Persona creada", "id": nueva_persona.id}), 201
 
 @persona_bp.route('/<int:id>', methods=['PUT'])
+@jwt_required()
 def update_persona(id):
     data = request.get_json()
     p = Persona.query.get_or_404(id)
@@ -84,6 +89,7 @@ def update_persona(id):
     return jsonify({"message": "Persona actualizada"}), 200
 
 @persona_bp.route('/<int:id>', methods=['DELETE'])
+@jwt_required()
 def delete_persona(id):
     p = Persona.query.get_or_404(id)
     p.estado = False

@@ -30,7 +30,10 @@ def login():
     user.ultimo_login = datetime.utcnow()
     db.session.commit()
 
-    token = create_access_token(identity=user.id, additional_claims={
+
+    print("Autenticado:", user.username, "ID:", user.id)
+
+    token = create_access_token(identity=str(user.id), additional_claims={
         "username": user.username,
         "rol": user.rol,
         "id": user.id

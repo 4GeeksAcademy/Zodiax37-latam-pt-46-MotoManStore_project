@@ -25,10 +25,28 @@ static_file_dir = os.path.join(os.path.dirname(
     os.path.realpath(__file__)), '../dist/')
 app = Flask(__name__)
 app.url_map.strict_slashes = False
-CORS(app)  # Esto permite CORS para todas las rutas y orígenes
+CORS(app, supports_credentials=True)
 
-app.config["JWT_SECRET_KEY"] = "super-secret-key"  # cámbiala en producción
+app.config["JWT_SECRET_KEY"] = "super-secret-key"  
 jwt = JWTManager(app)
+
+
+@jwt.invalid_token_loader
+def invalid_token_callback(e):
+    print("🧨 Token inválido:", e)
+    print("🧨 Headers que llegaron:", dict(request.headers))
+    return jsonify(msg="Token inválido", error=e), 422
+
+
+@jwt.unauthorized_loader
+def missing_token_callback(e):
+    return jsonify(msg="Token faltante"), 401
+
+@jwt.expired_token_loader
+def expired_token_callback(header, payload):
+    return jsonify(msg="Token expirado"), 401
+
+
 
 
 # database condiguration
@@ -53,7 +71,23 @@ setup_commands(app)
 app.register_blueprint(api, url_prefix='/api')
 app.register_blueprint(auth, url_prefix="/api") 
 
+
+
 # Handle/serialize errors like a JSON object
+
+
+
+
+
+
+@app.errorhandler(422)
+def handle_422_error(err):
+    return jsonify({
+        "msg": "Error 422",
+        "detalles": str(err),
+        "headers": dict(request.headers)
+    }), 422
+
 
 
 @app.errorhandler(APIException)

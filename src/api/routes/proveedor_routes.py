@@ -1,9 +1,11 @@
 from flask import Blueprint, request, jsonify
 from api.models import db, Proveedor
 
+from flask_jwt_extended import jwt_required
 proveedor_bp = Blueprint('proveedor_bp', __name__)
 
 @proveedor_bp.route('/', methods=['GET'])
+@jwt_required()
 def get_proveedores():
     proveedores = Proveedor.query.filter_by(estado=True).all()
     result = []
@@ -20,6 +22,7 @@ def get_proveedores():
     return jsonify(result), 200
 
 @proveedor_bp.route('/<int:id>', methods=['GET'])
+@jwt_required()
 def get_proveedor(id):
     p = Proveedor.query.get_or_404(id)
     if not p.estado:
@@ -35,6 +38,7 @@ def get_proveedor(id):
     }), 200
 
 @proveedor_bp.route('/', methods=['POST'])
+@jwt_required()
 def create_proveedor():
     data = request.get_json()
     nuevo_proveedor = Proveedor(
@@ -50,6 +54,7 @@ def create_proveedor():
     return jsonify({"message": "Proveedor creado", "id": nuevo_proveedor.id}), 201
 
 @proveedor_bp.route('/<int:id>', methods=['PUT'])
+@jwt_required()
 def update_proveedor(id):
     data = request.get_json()
     p = Proveedor.query.get_or_404(id)
@@ -64,6 +69,7 @@ def update_proveedor(id):
     return jsonify({"message": "Proveedor actualizado"}), 200
 
 @proveedor_bp.route('/<int:id>', methods=['DELETE'])
+@jwt_required()
 def delete_proveedor(id):
     p = Proveedor.query.get_or_404(id)
     p.estado = False

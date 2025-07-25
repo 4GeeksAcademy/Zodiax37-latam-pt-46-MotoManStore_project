@@ -3,6 +3,7 @@ from sqlalchemy import func, extract, desc
 from api.models import db, Venta, Factura, FacturaProducto, Producto, Existencia, Usuario, Notificacion
 
 from datetime import date
+from flask_jwt_extended import jwt_required, get_jwt_identity, get_jwt
 
 reporte_bp = Blueprint('reporte_bp', __name__)
 
@@ -10,7 +11,13 @@ reporte_bp = Blueprint('reporte_bp', __name__)
 
 
 @reporte_bp.route('/resumen-dash', methods=['GET'])
+@jwt_required()
 def resumen_dashboard():
+
+    identity = get_jwt_identity()
+    claims = get_jwt()
+    print("👉 ID:", identity)
+    print("👉 Claims:", claims)
     hoy = date.today()
 
     productos_stock = db.session.query(func.count()).filter(Existencia.cantidad_actual > 0).scalar()
@@ -32,6 +39,7 @@ def resumen_dashboard():
 
 
 @reporte_bp.route('/ventas-por-fecha', methods=['GET'])
+@jwt_required()
 def ventas_por_fecha():
     fecha_inicio = request.args.get('fechaInicio')
     fecha_fin = request.args.get('fechaFin')
@@ -57,6 +65,7 @@ def ventas_por_fecha():
     ])
 
 @reporte_bp.route('/detalle-venta/<int:venta_id>', methods=['GET'])
+@jwt_required()
 def consultar_detalle_venta(venta_id):
     detalles = db.session.query(
         Venta.id.label('venta_id'),
@@ -97,6 +106,7 @@ def consultar_detalle_venta(venta_id):
     ])
 
 @reporte_bp.route('/mas-vendidos', methods=['GET'])
+@jwt_required()
 def productos_mas_vendidos():
     fecha_inicio = request.args.get('fechaInicio')
     fecha_fin = request.args.get('fechaFin')
