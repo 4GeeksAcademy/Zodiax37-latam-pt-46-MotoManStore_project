@@ -43,7 +43,7 @@ Extras: Axios, autenticación con JWT`,
     <div style={{ background: '#1e1e2f', minHeight: '100vh', padding: '50px 0' }}>
       <div className="container">
         <h1 className="text-center mb-5 display-5 fw-bold text-light">
-          Sobre el Proyecto: <span className="text-info">MotoMan</span>
+          Sobre el Proyecto: <span className="text-info">MotoManWeb</span>
         </h1>
 
         {sections.map((section, index) => (
