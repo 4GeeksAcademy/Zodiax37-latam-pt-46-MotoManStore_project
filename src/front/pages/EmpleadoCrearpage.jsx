@@ -98,7 +98,7 @@ export default function EmpleadoCrearPage() {
     };
 
     return (
-        <div className="container mt-4">
+        <div className="container-fluid mt-4">
             <h2>Crear Empleado</h2>
             <EmpleadoForm
                 empleado={empleado}

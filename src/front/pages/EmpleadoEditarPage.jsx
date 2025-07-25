@@ -82,7 +82,7 @@ export default function EmpleadoEditarPage() {
     if (!empleado) return <p>Empleado no encontrado</p>;
 
     return (
-        <div className="container mt-4">
+        <div className="container-fluid mt-4">
             <h2>Editar Empleado</h2>
             <EmpleadoForm
                 empleado={empleado}

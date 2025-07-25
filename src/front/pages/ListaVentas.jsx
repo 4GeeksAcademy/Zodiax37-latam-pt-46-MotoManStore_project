@@ -67,7 +67,7 @@ export default function ListaVentas() {
     };
 
     return (
-        <div className="container py-4">
+        <div className="container-fluid py-4">
             <h2 className="mb-3">{rol === 'admin' ? 'Todas las Ventas' : 'Mis Ventas'}</h2>
 
             {/* Filtros */}

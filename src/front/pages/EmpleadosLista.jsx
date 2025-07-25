@@ -37,7 +37,7 @@ export default function EmpleadosLista() {
     };
 
     return (
-        <div className="container p-4">
+        <div className="container-fluid p-4">
             <div className="d-flex justify-content-end mb-3">
                 <button className="btn btn-success" onClick={() => navigate('/empleados/crear')}>
                     Añadir Empleado

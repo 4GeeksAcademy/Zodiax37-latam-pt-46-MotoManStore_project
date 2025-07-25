@@ -33,7 +33,7 @@ export default function ProveedorListaPage() {
     };
 
     return (
-        <div className="container mt-4">
+        <div className="container-fluid mt-4">
             <h2 className="mb-4">Lista de Proveedores</h2>
             <table className="table table-hover">
                 <thead>

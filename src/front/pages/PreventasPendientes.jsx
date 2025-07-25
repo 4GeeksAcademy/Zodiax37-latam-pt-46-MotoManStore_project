@@ -42,7 +42,7 @@ export default function SeleccionarPreventaPage() {
     };
 
     return (
-        <div className="container mt-4">
+        <div className="container-fluid me-5 mt-4">
             <h2>Seleccionar Preventa Pendiente</h2>
 
             {preventas.length === 0 ? (

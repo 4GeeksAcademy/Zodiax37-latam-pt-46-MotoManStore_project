@@ -60,7 +60,9 @@
   border-color: #3b82f6;
   outline: none;
 }
-.right-panel .btn {
+
+
+.right-panel .btn-primary {
   background-color: #3b82f6;
   border: none;
   padding: 10px;
@@ -69,6 +71,6 @@
   border-radius: 6px;
   transition: background 0.2s;
 }
-.right-panel .btn:hover {
+.right-panel .btn-primary:hover {
   background-color: #2563eb;
 }

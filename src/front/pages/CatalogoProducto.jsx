@@ -36,7 +36,7 @@ export default function CatalogoProductos() {
     }, [busqueda, criterioBusqueda, productos]);
 
     return (
-        <div className="container mt-4">
+        <div className="container-fluid mt-4">
             <h2 className="mb-4">Catálogo de Productos</h2>
 
             <div className="row mb-4">

@@ -36,7 +36,7 @@ export default function Usuarios() {
   };
 
   return (
-    <div className="container p-4">
+    <div className="container-fluid p-4">
       <div className="d-flex align-items-end flex-column bd-highlight mb-3">
         <button className="btn btn-success" onClick={() => navigate('/crear-usuario')}>
           Añadir Usuario

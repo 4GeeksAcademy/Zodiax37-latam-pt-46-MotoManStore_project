@@ -29,6 +29,10 @@ import ProveedorEditarPage from './pages/ProveedorEditarPage';
 import ProveedorListaPage from './pages/ProveedorListapage';
 import CategoriaEditarPage from './pages/CategoriaEditarPage';
 
+
+import About from './pages/about'
+import { element } from 'prop-types';
+
 export const privateRoutes = [
   {
     path: '/',
@@ -68,6 +72,10 @@ export const publicRoutes = [
   {
     path: '/login',
     element: <Login />,
+  },
+  {
+    path:'/about-project',
+    element:<About />
   },
   {
     path: '*',
